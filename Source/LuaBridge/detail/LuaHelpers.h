@@ -30,55 +30,6 @@
 // These are for Lua versions prior to 5.2.0.
 //
 #if LUA_VERSION_NUM < 502
-inline int lua_absindex (lua_State* L, int idx)
-{
-  if (idx > LUA_REGISTRYINDEX && idx < 0)
-    return lua_gettop (L) + idx + 1;
-  else
-    return idx;
-}
-
-inline void lua_rawgetp (lua_State* L, int idx, void const* p)
-{
-  idx = lua_absindex (L, idx);
-  lua_pushlightuserdata (L, const_cast <void*> (p));
-  lua_rawget (L,idx);
-}
-
-inline void lua_rawsetp (lua_State* L, int idx, void const* p)
-{
-  idx = lua_absindex (L, idx);
-  lua_pushlightuserdata (L, const_cast <void*> (p));
-  // put key behind value
-  lua_insert (L, -2);
-  lua_rawset (L, idx);
-}
-
-#define LUA_OPEQ 1
-#define LUA_OPLT 2
-#define LUA_OPLE 3
-
-inline int lua_compare (lua_State* L, int idx1, int idx2, int op)
-{
-  switch (op)
-  {
-  case LUA_OPEQ:
-    return lua_equal (L, idx1, idx2);
-    break;
-
-  case LUA_OPLT:
-    return lua_lessthan (L, idx1, idx2);
-    break;
-
-  case LUA_OPLE:
-    return lua_equal (L, idx1, idx2) || lua_lessthan (L, idx1, idx2);
-    break;
-
-  default:
-    return 0;
-  };
-}
-
 inline int get_length (lua_State* L, int idx)
 {
   return int (lua_objlen (L, idx));

@@ -51,6 +51,8 @@ namespace luabridge
 template <class T>
 struct Stack;
 
+#include "detail/LuaHelpers.h"
+
 #include "detail/TypeTraits.h"
 #include "detail/TypeList.h"
 #include "detail/FuncTraits.h"
